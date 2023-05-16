@@ -94,60 +94,60 @@ print("\nTotal Women Images: " + str(total_women_counter))
 
 print("\nTotal time for gathering dataset: " + str(time.time() - snapshot_time) + " seconds")
 print('\n')
-# print(" ===========================================================================")
-# print("|               the data                                                    |")
-# print(" ===========================================================================")
-
-# shutil.copy2(os.path.join(path, file), os.path.join(new_path, file))
-
-
 print(" ===========================================================================")
-print("|              Split the data in training, validation, test                  |")
+print("|               the data                                                    |")
 print(" ===========================================================================")
 
-# Define the paths to the training, validation, and test directories
-train_path = "training"
-val_path = "validation"
-test_path = "test"
+shutil.copy2(os.path.join(path, file), os.path.join(new_path, file))
 
-# Define the percentage of data to use for each set
-train_percent = 0.7
-val_percent = 0.15
-test_percent = 0.15
 
-training_counter = 0
-validation_counter = 0
-test_counter = 0
+# print(" ===========================================================================")
+# print("|              Split the data in training, validation, test                  |")
+# print(" ===========================================================================")
 
-# Create the training, validation, and test directories if they don't exist
-os.makedirs(train_path, exist_ok=True)
-os.makedirs(val_path, exist_ok=True)
-os.makedirs(test_path, exist_ok=True)
+# # Define the paths to the training, validation, and test directories
+# train_path = "training"
+# val_path = "validation"
+# test_path = "test"
 
-snapshot_time = time.time()
-# Loop over each file in the dataset directory
-for file in os.listdir(new_path):
-    # Generate a random number between 0 and 1
-    rand = random.random()
+# # Define the percentage of data to use for each set
+# train_percent = 0.7
+# val_percent = 0.15
+# test_percent = 0.15
 
-    # Copy the file to the appropriate directory based on the random number
-    if rand < train_percent:
-        training_counter += 1
-        shutil.copy2(os.path.join(new_path, file), os.path.join(train_path, file))
-    elif rand < train_percent + val_percent:
-        validation_counter += 1
-        shutil.copy2(os.path.join(new_path, file), os.path.join(val_path, file))
-    else:
-        test_counter += 1
-        shutil.copy2(os.path.join(new_path, file), os.path.join(test_path, file))
+# training_counter = 0
+# validation_counter = 0
+# test_counter = 0
 
-shutil.rmtree(new_path)
-os.mkdir(new_path)
+# # Create the training, validation, and test directories if they don't exist
+# os.makedirs(train_path, exist_ok=True)
+# os.makedirs(val_path, exist_ok=True)
+# os.makedirs(test_path, exist_ok=True)
 
-print("Training dataset count: " + str(training_counter))
-print("Validation dataset count: " + str(validation_counter))
-print("Test dataset count: " + str(test_counter))
-print("Total time for partitioning the dataset: " + str(time.time() - snapshot_time) + " seconds")
+# snapshot_time = time.time()
+# # Loop over each file in the dataset directory
+# for file in os.listdir(new_path):
+#     # Generate a random number between 0 and 1
+#     rand = random.random()
+
+#     # Copy the file to the appropriate directory based on the random number
+#     if rand < train_percent:
+#         training_counter += 1
+#         shutil.copy2(os.path.join(new_path, file), os.path.join(train_path, file))
+#     elif rand < train_percent + val_percent:
+#         validation_counter += 1
+#         shutil.copy2(os.path.join(new_path, file), os.path.join(val_path, file))
+#     else:
+#         test_counter += 1
+#         shutil.copy2(os.path.join(new_path, file), os.path.join(test_path, file))
+
+# shutil.rmtree(new_path)
+# os.mkdir(new_path)
+
+# print("Training dataset count: " + str(training_counter))
+# print("Validation dataset count: " + str(validation_counter))
+# print("Test dataset count: " + str(test_counter))
+# print("Total time for partitioning the dataset: " + str(time.time() - snapshot_time) + " seconds")
 
 print('\n')
 print(" ===========================================================================")
