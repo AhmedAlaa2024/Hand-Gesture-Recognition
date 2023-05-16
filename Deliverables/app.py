@@ -9,13 +9,11 @@ import time
 with open('models/hard_training_voting.hdf5', 'rb') as file:
   soft_voting = joblib.load(file)
     # Initialize an empty list to store the numbers
-lables=[]
 # Load the images
 directory = "test"
 image_paths = []
 for filename in os.listdir(directory):
   if filename.endswith('.jpg') or filename.endswith('.png'):
-    lables.append(int(filename[2]))
     image_paths.append(os.path.join(directory, filename))
 if not image_paths:
   print('No images found in the test directory')
