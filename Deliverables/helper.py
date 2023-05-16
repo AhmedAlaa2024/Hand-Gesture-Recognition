@@ -54,6 +54,10 @@ def extract_hog_features(image, cell_size, num_orientations):
   # Return the features
   return features
 
+def HOG_box(image):
+   preprocessed_image = hog_preprocessing(image)
+   hog_feature_vector = extract_hog_features(preprocessed_image, np.array([10, 10]), 9) 
+   return hog_feature_vector
 
 def load_images_from_folder(folder_path):
   # Set the path to the folder containing the images
@@ -66,8 +70,7 @@ def load_images_from_folder(folder_path):
     image = cv2.imread(os.path.join(folder_path, imagefile))
 
     # Convert the color channels from BGR to RGB
-    hog_feature_vector = extract_hog_features(image, np.array([10, 10]), 9)
-
+    hog_feature_vector =   extract_hog_features(image, np.array([10, 10]), 9)
     # Append the image to the list of images
     try:
       labels.append(int(imagefile[0]))
@@ -94,41 +97,15 @@ def load_dataset_linux():
 def load_dataset_win():
   X = []
   Y = []
-  x  = load_images_from_folder('E:/2nd term 3rd year/Neural Network/Project/men/0')
-  X += x
-  Y+=np.repeat(0,len(x)).tolist()
-  x = load_images_from_folder('E:/2nd term 3rd year/Neural Network/Project/women/0')
-  X += x
-  Y+=np.repeat(0,len(x)).tolist()
-  x = load_images_from_folder('E:/2nd term 3rd year/Neural Network/Project/men/1')
-  X += x
-  Y+=np.repeat(1,len(x)).tolist()
-  x = load_images_from_folder('E:/2nd term 3rd year/Neural Network/Project/women/1')
-  X += x
-  Y+=np.repeat(1,len(x)).tolist()
-  x = load_images_from_folder('E:/2nd term 3rd year/Neural Network/Project/men/2')
-  X += x
-  Y+=np.repeat(2,len(x)).tolist()
-  x= load_images_from_folder('E:/2nd term 3rd year/Neural Network/Project/women/2')
-  X += x
-  Y+=np.repeat(2,len(x)).tolist()
-  x = load_images_from_folder('E:/2nd term 3rd year/Neural Network/Project/men/3')
-  X += x
-  Y+=np.repeat(3,len(x)).tolist()
-  x = load_images_from_folder('E:/2nd term 3rd year/Neural Network/Project/women/3')
-  X += x
-  Y+=np.repeat(3,len(x)).tolist()
-  x = load_images_from_folder('E:/2nd term 3rd year/Neural Network/Project/men/4')
-  X += x
-  Y+=np.repeat(4,len(x)).tolist()
-  x = load_images_from_folder('E:/2nd term 3rd year/Neural Network/Project/women/4')
-  X += x
-  Y+=np.repeat(4,len(x)).tolist()
-  x= load_images_from_folder('E:/2nd term 3rd year/Neural Network/Project/men/5')
-  X += x
-  Y+=np.repeat(5,len(x)).tolist()
-  x = load_images_from_folder('E:/2nd term 3rd year/Neural Network/Project/women/5')
-  X += x
-  Y+=np.repeat(5,len(x)).tolist()
-  
-  return np.array(X),np.array(Y)
+  Y_train, X_train = load_images_from_folder('E:/2nd term 3rd year/Neural Network/Project/Hand-Gesture-Recognition/resizedData_training')
+  Y_valid, X_valid = load_images_from_folder('E:/2nd term 3rd year/Neural Network/Project/Hand-Gesture-Recognition/resizedData_validation')
+
+  return np.array(Y_train),np.array(X_train),np.array(Y_valid),np.array(X_valid)
+
+# For the windows farmers
+def load_all_dataset__win():
+  X = []
+  Y = []
+  Y_train, X_train = load_images_from_folder('E:/2nd term 3rd year/Neural Network/Project/resizedData')
+
+  return np.array(Y_train),np.array(X_train)

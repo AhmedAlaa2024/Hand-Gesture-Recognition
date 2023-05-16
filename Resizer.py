@@ -37,11 +37,11 @@ def load_images_from_folder(folder_path):
 
 def hog_preprocessing(image):
     image=cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    filtered_image  = cv2.GaussianBlur(image, (3, 3), 1.0)
-    resized_image = cv2.resize(filtered_image,(500,500))
+    resized_image = cv2.resize(image,(500,500))
     #======================================Color Segmentation========================#
-    hsv_image = cv2.cvtColor(resized_image, cv2.COLOR_RGB2HSV)
-    light_skin = (0, 50, 50 )
+    filtered_image  = cv2.GaussianBlur(resized_image, (7, 7), 1)
+    hsv_image = cv2.cvtColor(filtered_image, cv2.COLOR_RGB2HSV)
+    light_skin = (0, 40, 50 )
     dark_skin = (50, 250, 255)
     mask = cv2.inRange(hsv_image, light_skin, dark_skin)
     #Define the kernel for closing
@@ -64,6 +64,7 @@ def load_images(folder_path):
     labels = []
 
     for imagefile in os.listdir(folder_path):
+        print( imagefile)
         # Read the image 
         image = cv2.imread(os.path.join(folder_path, imagefile))
         resizedImage.append(hog_preprocessing(image))
@@ -77,9 +78,17 @@ def save_images(folder_path, resizedImage, labels):
 
 if __name__ == "__main__":
   start_time = time.time()
-  labels, resizedImages = load_images('/home/ahmedalaa/Study/College/NN/Hand-Gesture-Recognition/data')
+  labels, resizedImages = load_images('E:/2nd term 3rd year/Neural Network/Project/Hand-Gesture-Recognition/training')
   print("Loading Time: %s seconds" % (time.time() - start_time))
 
   start_time = time.time()
-  save_images('/home/ahmedalaa/Study/College/NN/Hand-Gesture-Recognition/resizedData', resizedImages, labels)
+  save_images('E:/2nd term 3rd year/Neural Network/Project/Hand-Gesture-Recognition/resizedData_training', resizedImages, labels)
+  print("Saving Time: %s seconds" % (time.time() - start_time))
+
+  start_time = time.time()
+  labels, resizedImages = load_images('E:/2nd term 3rd year/Neural Network/Project/Hand-Gesture-Recognition/validation')
+  print("Loading Time: %s seconds" % (time.time() - start_time))
+
+  start_time = time.time()
+  save_images('E:/2nd term 3rd year/Neural Network/Project/Hand-Gesture-Recognition/resizedData_validation', resizedImages, labels)
   print("Saving Time: %s seconds" % (time.time() - start_time))

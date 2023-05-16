@@ -1,48 +1,53 @@
 import cv2
 import joblib
 import os
-from helper import hog_preprocessing, extract_hog_features
+from helper import *
 import numpy as np
 import time
-
 # Stage 6: Model Inference
 # Load the model
-with open('model/hard_voting.hdf5', 'rb') as file:
-  hard_voting = joblib.load(file)
-
-with open('model/soft_voting.hdf5', 'rb') as file:
+with open('models/hard_training_voting.hdf5', 'rb') as file:
   soft_voting = joblib.load(file)
-
-# Load the image
-directory = 'test'
-image_path = None
+    # Initialize an empty list to store the numbers
+lables=[]
+# Load the images
+directory = "test"
+image_paths = []
 for filename in os.listdir(directory):
   if filename.endswith('.jpg') or filename.endswith('.png'):
-    image_path = os.path.join(directory, filename)
-    break
+    lables.append(int(filename[2]))
+    image_paths.append(os.path.join(directory, filename))
+if not image_paths:
+  print('No images found in the test directory')
+  exit()
 
-if image_path is not None:
+# Make predictions and record times
+soft_predictions = []
+times = []
+resizedImage = []
+for image_path in image_paths:
   image = cv2.imread(image_path)
   image = hog_preprocessing(image)
+  resizedImage.append(image)
   hog_feature_vector = extract_hog_features(image, np.array([10, 10]), 9)
   hog_feature_vector = np.asarray(hog_feature_vector).reshape(1, -1)
-else:
-  print('No image found in the test directory')
+  start_time = time.time()
+  soft_prediction = soft_voting.predict(hog_feature_vector)
+  end_time = time.time()
+  soft_predictions.append(soft_prediction[0])
+  times.append(end_time - start_time)
+# Create the output directory if it doesn't exist
+if not os.path.exists('output'):
+  os.makedirs('output')
 
-# Make predictions
-start_time = time.time()
-hard_prediction = hard_voting.predict(hog_feature_vector)
-soft_prediction = soft_voting.predict(hog_feature_vector)
-end_time = time.time()
+# Write results to files
+with open('output/results.txt', 'w') as f:
+  for prediction in soft_predictions:
+    f.write(str(prediction) + '\n')
 
-# Print the predictions
-print(" ======================================================== ")
-print("| [Stage 6]: Model Inference                             |")
-print("| Hard Voting Prediction:", hard_prediction[0], "                             |")
-print("| Soft Voting Prediction:", soft_prediction[0], "                             |")
-print("| Inference Time = {:.4f}                                |".format(end_time - start_time))
-print(" ======================================================== ")
-
-cv2.imshow("Prediction", cv2.imread('labels/{0}.png'.format(hard_prediction[0])))
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+with open('output/time.txt', 'w') as f:
+  for time_taken in times:
+    f.write('{:.3f}\n'.format(time_taken))
+print('Done!')
+print('Results written to output/results.txt')
+print('Time taken written to output/time.txt with average time = {:.3f} seconds'.format(np.mean(times)))
