@@ -8,20 +8,24 @@ import time
 # Load the model
 def save_images(folder_path, resizedImage, labels):
     for i in range(len(resizedImage)):
-        cv2.imwrite(folder_path + '/' + str(labels) + '_' + str(i) + '.jpg', resizedImage[i])
+        cv2.imwrite(folder_path + '/' + str(labels[i]) + '_' + str(i+1) + '.jpg', resizedImage[i])
 
 with open('models/soft_training_voting.hdf5', 'rb') as file:
   soft_voting = joblib.load(file)
     # Initialize an empty list to store the numbers
-lables=[]
+lables=[4, 5, 5, 2, 3, 4, 5, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 2, 3, 5, 5, 4, 4, 1, 5, 5, 5, 5, 2, 3, 4, 2, 1, 1, 2, 3]
 # Load the images
 directory = "data"
 image_paths = []
+count=1
 for filename in os.listdir(directory):
-  if filename.endswith('.jpg') or filename.endswith('.png'):
-    # lables.append(int(filename[2]))
-    image_paths.append(os.path.join(directory, filename))
-# print(lables)
+  image_paths.append("./data/("+str(count)+").jpg")
+  count=count+1
+# for filename in os.listdir(directory):
+#   if filename.endswith('.jpg') or filename.endswith('.png'):
+#     lables.append(int(filename[2]))
+#     image_paths.append(os.path.join(directory, filename))
+print(image_paths)
 if not image_paths:
   print('No images found in the test directory')
   exit()
@@ -43,16 +47,16 @@ soft_predictions = soft_voting.predict(hog_feature_vectors)
 end_time = time.time()
 # soft_predictions.append(soft_prediction)
 times.append(end_time - start_time)
-save_images('E:/2nd term 3rd year/Neural Network/Project/Hand-Gesture-Recognition/Deliverables/output/preprocess_result', resizedImage, 1)
+save_images('E:/2nd term 3rd year/Neural Network/Project/Hand-Gesture-Recognition/Deliverables/output/preprocess_result', resizedImage,lables)
 
-#===============================================
+# ===============================================
 
-# score_soft = accuracy_score(lables, soft_predictions)
-# print(" ======================================================== ")
-# print("| [Stage 4]: Model Evaluation                            |")
-# print("| Accuracy soft:", score_soft*100, '%                      |')
-# print(" ======================================================== ")
-#===========================================
+score_soft = accuracy_score(lables, soft_predictions)
+print(" ======================================================== ")
+print("| [Stage 4]: Model Evaluation                            |")
+print("| Accuracy soft:", score_soft*100, '%                      |')
+print(" ======================================================== ")
+# ===========================================
 # Create the output directory if it doesn't exist
 if not os.path.exists('output'):
   os.makedirs('output')

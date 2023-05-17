@@ -5,24 +5,24 @@ preprocessed_images = []
 feature_vectors = []
 
 # Stage 1: Data Loading, Preprocessing and Feature Extraction
-Y_train, X_train,Y_vaild, X_valid = load_dataset_win()
-# print(" =============================================================== ")
-# print("| [Stage 1]: Data Loading, Preprocessing and Feature Extraction |")
-# print(f"| Number of images loaded: {len(X)}                                 |")
-# print(f"| Number of labels loaded: {len(Y)}                                 |")
-# print(" =============================================================== ")
+Y, X = load_all_dataset__win()
+print(" ================================================================ ")
+print("| [Stage 1]:  Data Loading, Preprocessing and Feature Extraction |")
+print(f"| Number of training images: {len(X)}                           |")
+print(f"| Number of training labels: {len(Y)}                           |")
+print(" ===============================================================  ")
 
 # Stage 2: Data Splitting into Training and Testing
-# X_train, X_valid, Y_train, Y_vaild = train_test_split(X, Y, test_size=0.15, random_state=12)
-# X_train, X_test, Y_train, Y_test = train_test_split(X_train,Y_train, test_size=0.15,random_state=12)
+X_train, X_valid, Y_train, Y_vaild = train_test_split(X, Y, test_size=0.15, random_state=42)
+X_train, X_test, Y_train, Y_test = train_test_split(X_train,Y_train, test_size=0.15,random_state=42)
 print(" ======================================================== ")
 print("| [Stage 2]: Data Splitting into Training and Testing    |")
-print(f"| Number of training images: {len(X_train)}                        |")
-print(f"| Number of training labels: {len(Y_train)}                        |")
-print(f"| Number of testing images: {len(X_valid)}                          |")
-print(f"| Number of testing labels: {len(Y_vaild)}                          |")
-# print(f"| Number of validation images: {len(X_test)}                       |")
-# print(f"| Number of validation labels: {len(Y_test)}                       |")
+print(f"| Number of training images: {len(X_train)}             |")
+print(f"| Number of training labels: {len(Y_train)}             |")
+print(f"| Number of testing images: {len(X_valid)}              |")
+print(f"| Number of testing labels: {len(Y_vaild)}              |")
+print(f"| Number of validation images: {len(X_test)}            |")
+print(f"| Number of validation labels: {len(Y_test)}            |")
 print(" ======================================================== ")
 
 # Stage 3: Model Training and Validation
@@ -42,12 +42,12 @@ y_pred_soft = vot_soft.predict(X_valid)
 
 print(" ======================================================== ")
 print("| [Stage 3]: Model Training and Validation               |")
-print(f"| Number of training images: {len(X_train)}                        |")
-print(f"| Number of training labels: {len(Y_train)}                        |")
-print(f"| Number of testing images: {len(X_valid)}                          |")
-print(f"| Number of testing labels: {len(Y_vaild)}                          |")
-# print(f"| Number of validation images: {len(X_test)}                       |")
-# print(f"| Number of validation labels: {len(Y_test)}                       |")
+print(f"| Number of training images: {len(X_train)}             |")
+print(f"| Number of training labels: {len(Y_train)}             |")
+print(f"| Number of testing images: {len(X_valid)}              |")
+print(f"| Number of testing labels: {len(Y_vaild)}              |")
+print(f"| Number of validation images: {len(X_test)}            |")
+print(f"| Number of validation labels: {len(Y_test)}            |")
 print(" ======================================================== ")
 
 # Stage 4: Model Evaluation

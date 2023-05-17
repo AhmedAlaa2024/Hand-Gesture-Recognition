@@ -54,10 +54,6 @@ def extract_hog_features(image, cell_size, num_orientations):
   # Return the features
   return features
 
-def HOG_box(image):
-   preprocessed_image = hog_preprocessing(image)
-   hog_feature_vector = extract_hog_features(preprocessed_image, np.array([10, 10]), 9) 
-   return hog_feature_vector
 
 def load_images_from_folder(folder_path):
   # Set the path to the folder containing the images
@@ -70,7 +66,7 @@ def load_images_from_folder(folder_path):
     image = cv2.imread(os.path.join(folder_path, imagefile))
 
     # Convert the color channels from BGR to RGB
-    hog_feature_vector =   extract_hog_features(image, np.array([10, 10]), 9)
+    hog_feature_vector = extract_hog_features(image, np.array([10, 10]), 9)
     # Append the image to the list of images
     try:
       labels.append(int(imagefile[0]))

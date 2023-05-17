@@ -12,18 +12,28 @@ with open('models/soft_training_voting.hdf5', 'rb') as file:
 # Load the images
 directory = "data"
 image_paths = []
+# for filename in os.listdir(directory):
+#         # Each Subfolder
+#         path = directory + "/" + filename
+#         print(path)
+#        image_path = cv2.imread(path)
+count=1
 for filename in os.listdir(directory):
-  if filename.endswith('.jpg') or filename.endswith('.png'):
-    image_paths.append(os.path.join(directory, filename))
+  image_paths.append("./data/("+str(count)+").jpg")
+  count=count+1
+print(cv2.imread("./data/("+str(0)+").jpg"))
+  # if filename.endswith('.jpg') or filename.endswith('.png'):
+  #   image_paths.append(os.path.join(directory, filename))
+print(image_paths)
 if not image_paths:
   print('No images found in the data directory')
   exit()
-
 # Make predictions and record times
 soft_predictions = []
 times = []
 resizedImage = []
 for image_path in image_paths:
+  # print(image_path)
   image = cv2.imread(image_path)
   start_time = time.time()
   image = hog_preprocessing(image)

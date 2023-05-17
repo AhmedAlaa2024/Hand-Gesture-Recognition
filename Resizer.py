@@ -39,9 +39,8 @@ def hog_preprocessing(image):
     image=cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     resized_image = cv2.resize(image,(500,500))
     #======================================Color Segmentation========================#
-    # filtered_image  = cv2.GaussianBlur(resized_image, (7, 7), 1)
     hsv_image = cv2.cvtColor(resized_image, cv2.COLOR_RGB2HSV)
-    light_skin = (0, 45, 50 )
+    light_skin = (0, 50, 50 )
     dark_skin = (50, 250, 255)
     mask = cv2.inRange(hsv_image, light_skin, dark_skin)
     #Define the kernel for closing
