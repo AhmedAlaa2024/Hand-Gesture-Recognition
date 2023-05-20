@@ -102,6 +102,6 @@ def load_dataset_win():
 def load_all_dataset__win():
   X = []
   Y = []
-  Y_train, X_train = load_images_from_folder('E:/2nd term 3rd year/Neural Network/Project/resizedData')
+  Y_train, X_train = load_images_from_folder('E:/2nd term 3rd year/Neural Network/Project/Hand-Gesture-Recognition/resizedData')
 
   return np.array(Y_train),np.array(X_train)

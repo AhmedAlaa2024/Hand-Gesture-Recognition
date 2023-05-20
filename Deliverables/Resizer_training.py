@@ -46,6 +46,7 @@ def load_images(folder_path):
     return labels, resizedImage
 
 def save_images(folder_path, resizedImage, labels):
+    print(len(resizedImage))
     for i in range(len(resizedImage)):
         cv2.imwrite(folder_path + '/' + str(labels[i]) + '_' + str(i) + '.jpg', resizedImage[i])
 
@@ -55,5 +56,5 @@ if __name__ == "__main__":
  print("Loading Time: %s seconds" % (time.time() - start_time))
 
  start_time = time.time()
- save_images('E:/2nd term 3rd year/Neural Network/Project/resizedData', resizedImages, labels)
+ save_images('E:/2nd term 3rd year/Neural Network/Project/Hand-Gesture-Recognition/resizedData', resizedImages, labels)
  print("Saving Time: %s seconds" % (time.time() - start_time))

@@ -8,24 +8,21 @@ import time
 # Load the model
 def save_images(folder_path, resizedImage, labels):
     for i in range(len(resizedImage)):
-        cv2.imwrite(folder_path + '/' + str(labels[i]) + '_' + str(i+1) + '.jpg', resizedImage[i])
+        cv2.imwrite(folder_path + '/' + str(i+1) + '_' + str(labels[i]) + '.jpg', resizedImage[i])
 
 with open('models/soft_training_voting.hdf5', 'rb') as file:
   soft_voting = joblib.load(file)
-    # Initialize an empty list to store the numbers
+  # Initialize an empty list to store the numbers
 lables=[4, 5, 5, 2, 3, 4, 5, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 2, 3, 5, 5, 4, 4, 1, 5, 5, 5, 5, 2, 3, 4, 2, 1, 1, 2, 3]
-# Load the images
+
 directory = "data"
 image_paths = []
 count=1
 for filename in os.listdir(directory):
-  image_paths.append("./data/("+str(count)+").jpg")
+  image_paths.append("./data/"+str(count)+".jpg")
   count=count+1
-# for filename in os.listdir(directory):
-#   if filename.endswith('.jpg') or filename.endswith('.png'):
-#     lables.append(int(filename[2]))
-#     image_paths.append(os.path.join(directory, filename))
 print(image_paths)
+print(len(lables))
 if not image_paths:
   print('No images found in the test directory')
   exit()
@@ -37,12 +34,12 @@ resizedImage = []
 hog_feature_vectors=[]
 for image_path in image_paths:
   image = cv2.imread(image_path)
+  start_time = time.time()
   image = hog_preprocessing(image)
   resizedImage.append(image)
   hog_feature_vector = extract_hog_features(image, np.array([10, 10]), 9)
   #hog_feature_vector = np.asarray(hog_feature_vector).reshape(1, -1)
   hog_feature_vectors.append(hog_feature_vector)
-start_time = time.time()
 soft_predictions = soft_voting.predict(hog_feature_vectors)
 end_time = time.time()
 # soft_predictions.append(soft_prediction)
